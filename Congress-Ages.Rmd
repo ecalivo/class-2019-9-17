@@ -1,0 +1,22 @@
+---
+title: "Ages of Members of Congress"
+author: "Emmanuel Calivo"
+date: "9/12/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(fivethirtyeight)
+```
+
+```{r, echo = FALSE}
+congress_age %>% 
+  mutate(year = format(termstart, "%Y")) %>% 
+  group_by(year, party) %>%
+  summarize(meanage = mean(age)) %>% 
+  filter(party %in% c("R", "D")) %>% 
+  ggplot(congress_age, mapping = aes(x = year, y = meanage, group = party, color = party)) + geom_line() + ggtitle("Average Age of Members of Congress by Year") 
+
+```
