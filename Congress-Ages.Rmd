@@ -12,11 +12,12 @@ library(fivethirtyeight)
 ```
 
 ```{r, echo = FALSE}
+data("congress_age")
+
 congress_age %>% 
   mutate(year = format(termstart, "%Y")) %>% 
+  filter(party %in% c("R", "D")) %>% 
   group_by(year, party) %>%
   summarize(meanage = mean(age)) %>% 
-  filter(party %in% c("R", "D")) %>% 
-  ggplot(congress_age, mapping = aes(x = year, y = meanage, group = party, color = party)) + geom_line() + ggtitle("Average Age of Members of Congress by Year") 
-
+  ggplot(congress_age, mapping = aes(x = year, y = meanage, group = party, color = party)) + geom_line() + labs(title = "Average Age of Members of Congress by Year", subtitle = "As of beginning of term, 1947-2013", source = "FiveThirtyEight R Package") + theme_fivethirtyeight() + scale_color_fivethirtyeight()
 ```
